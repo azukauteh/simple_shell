@@ -85,8 +85,6 @@ void help_exit(void);
 void handle_line(char **line, ssize_t read);
 
 
-
-
 /* History.c Prototypes. */
 void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size);
 char *get_location(char *command);
@@ -97,9 +95,8 @@ void help_history(void);
 /* builtin_alias.c prototypes */
 char **replace_aliases(char **args);
 alias_t *add_alias_end(alias_t **head, char *name, char *value);
-void free_alias_list(alias_t *head);
 list_t *add_node_end(list_t **head, char *dir);
-void free_list(list_t *head);
+void free_alias_list();
 void help_alias(void);
 
 /* arg.c prototypes */
@@ -129,7 +126,7 @@ void help_env(void);
 
 
 /* builtin.c prototypes */
-/*int shellby_cd(char **args, char __attribute__((__unused__)) **front)*/
+int shellby_cd(char **args, char __attribute__((__unused__)) **front);
 int shellby_exit(char **args, char **front);
 int shellby_alias(char **args, char __attribute__((__unused__)) **front);
 int shellby_help(char **args, char __attribute__((__unused__)) **front);
@@ -160,7 +157,7 @@ void help_alias(void);
 void help_cd(void);
 void help_help(void);
 
-
+long __attribute__ ((unused)) myvariable;
 
 int proc_file_commands(char *file_path, int *exe_ret);
 
