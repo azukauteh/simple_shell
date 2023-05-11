@@ -157,7 +157,6 @@ void help_alias(void);
 void help_cd(void);
 void help_help(void);
 
-long __attribute__ ((unused)) myvariable;
 
 int proc_file_commands(char *file_path, int *exe_ret);
 
