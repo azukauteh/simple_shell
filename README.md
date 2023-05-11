@@ -1,4 +1,5 @@
 0x16. C - Simple Shell group project done by Basetsana Seeletsa and Azuka Uteh
+A shell is a command line intrepreter that runs programmes based on the text commands inputted by user
 
 0. Betty would be proud
 
