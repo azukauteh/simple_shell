@@ -58,8 +58,13 @@ struct alias_s *next;
 
 alias_t *aliases;
 
-/* atoi prototypes */
-int shell_interactive(ino_t *);
+typedef struct ino_t
+{
+int readfd;
+} my_ino_t;
+
+/* interactive_shell.c */
+int shell_interactive(my_ino_t *);
 int is_delimiter(char, char *);
 int is_alpha(int);
 int string_to_int(char *);
@@ -96,7 +101,7 @@ void help_history(void);
 char **replace_aliases(char **args);
 alias_t *add_alias_end(alias_t **head, char *name, char *value);
 list_t *add_node_end(list_t **head, char *dir);
-void free_alias_list();
+void free_alias_list(void);
 void help_alias(void);
 
 /* arg.c prototypes */
@@ -116,7 +121,6 @@ void help_unsetenv(void);
 char **_copyenv(void);
 void free_env(void);
 char **_getenv(const char *var);
-
 
 /* env_builtin.c prototypes */
 int (*get_builtin(char *command))(char **args, char **front);
@@ -153,10 +157,8 @@ int _strncmp(const char *s1, const char *s2, size_t n);
 
 
 void help_all(void);
-void help_alias(void);
 void help_cd(void);
 void help_help(void);
-
 
 int proc_file_commands(char *file_path, int *exe_ret);
 

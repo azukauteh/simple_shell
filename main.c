@@ -97,7 +97,6 @@ char *new_line = "\n";
 char *rename;
 int hist;
 char **environ;
-char **aliases;
 
 rename = argv[0];
 hist = 1;
@@ -113,7 +112,6 @@ if (argc != 1)
 {
 ret = proc_file_commands(argv[1], exe_ret);
 free_env();
-free_alias_list(aliases);
 return (*exe_ret);
 }
 
@@ -122,7 +120,6 @@ if (!isatty(STDIN_FILENO))
 while (ret != END_OF_FILE && ret != EXIT)
 ret = handle_args(exe_ret);
 free_env();
-free_alias_list(aliases);
 return (*exe_ret);
 }
 printf("hist: %d\n", hist);
