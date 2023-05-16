@@ -3,7 +3,7 @@
 
 #define END_OF_FILE -2
 #define EXIT -3
-
+#include <limits.h>
 #include <fcntl.h>
 #include <signal.h>
 #include <sys/types.h>
@@ -13,7 +13,7 @@
 #include <unistd.h>
 #include <errno.h>
 #include <stdio.h>
-
+#include <string.h>
 
 
 /**
@@ -135,7 +135,7 @@ int shellby_exit(char **args, char **front);
 int shellby_alias(char **args, char __attribute__((__unused__)) **front);
 int shellby_help(char **args, char __attribute__((__unused__)) **front);
 
-/* Error Handling */
+/*commits.c (error_ Handling) */
 int create_error(char **args, int err);
 char *error_env(char **args);
 char *error_1(char **args);
@@ -149,7 +149,7 @@ char *error_127(char **args);
 int _strlen(const char *s);
 char *_strcat(char *dest, const char *src);
 char *_strncat(char *dest, const char *src, size_t n);
-char *_strcpy(char *dest, const char *src);
+char *strcpy(char *dest, const char *src);
 char *_strchr(char *s, char c);
 int _strspn(char *s, char *accept);
 int _strcmp(char *s1, char *s2);
