@@ -3,7 +3,7 @@
 int shellby_env(char **args, char __attribute__((__unused__)) **front);
 int shellby_setenv(char **args, char __attribute__((__unused__)) **front);
 int shellby_unsetenv(char **args, char __attribute__((__unused__)) **front);
-extern char **environ;
+char **environ;
 
 /**
  * shellby_env - Prints the current environment.
@@ -18,7 +18,7 @@ extern char **environ;
 int shellby_env(char **args, char __attribute__((__unused__)) **front)
 {
 	int index;
-	extern char **environ;
+	char **environ;
 	char nc = '\n';
 
 	if (!environ)
