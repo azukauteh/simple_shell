@@ -37,7 +37,7 @@ strcat(error, hist_str);
 if (args[0][0] == '-')
 strcat(error, ": cd: Illegal option ");
 else
-_strcat(error, ": cd: can't cd to ");
+strcat(error, ": cd: can't cd to ");
 strcat(error, args[0]);
 strcat(error, "\n");
 

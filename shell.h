@@ -63,6 +63,14 @@ typedef struct ino_t
 int readfd;
 } my_ino_t;
 
+
+typedef struct args_t
+{
+int args;
+int diff;
+char env;
+} args_t;
+
 /* interactive_shell.c */
 int shell_interactive(my_ino_t *);
 int is_delimiter(char, char *);
@@ -114,13 +122,10 @@ void free_args(char **args, char **front);
 
 
 /* setenv.c prototypes */
+int shellby_env(char **args, char __attribute__((__unused__)) **front);
 int shellby_setenv(char **args, char __attribute__((__unused__)) **front);
 int shellby_unsetenv(char **args, char __attribute__((__unused__)) **front);
-void help_setenv(void);
-void help_unsetenv(void);
-char **_copyenv(void);
-void free_env(void);
-char **_getenv(const char *var);
+
 
 /* env_builtin.c prototypes */
 int (*get_builtin(char *command))(char **args, char **front);
@@ -147,14 +152,14 @@ char *error_127(char **args);
 
 /* String functions */
 int _strlen(const char *s);
-char *_strcat(char *dest, const char *src);
-char *_strncat(char *dest, const char *src, size_t n);
+char *strcat(char *dest, const char *src);
+char *strncat(char *dest, const char *src, size_t n);
 char *strcpy(char *dest, const char *src);
 char *_strchr(char *s, char c);
 int _strspn(char *s, char *accept);
 int _strcmp(char *s1, char *s2);
 int _strncmp(const char *s1, const char *s2, size_t n);
-
+char **strings(char **env);
 
 void help_all(void);
 void help_cd(void);
