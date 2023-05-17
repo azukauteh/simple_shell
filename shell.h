@@ -122,14 +122,13 @@ void free_args(char **args, char **front);
 
 
 /* setenv.c prototypes */
-int shellby_env(char **args, char __attribute__((__unused__)) **front);
+int shellby_env(char **args, char __attribute__((__unused__)) **front, char **environ);
 int shellby_setenv(char **args, char __attribute__((__unused__)) **front);
 int shellby_unsetenv(char **args, char __attribute__((__unused__)) **front);
 
 
 /* env_builtin.c prototypes */
 int (*get_builtin(char *command))(char **args, char **front);
-int shellby_env(char **args, char __attribute__((__unused__)) **front);
 int shellby_alias(char **args, char __attribute__((__unused__)) **front);
 void help_env(void);
 
