@@ -14,7 +14,10 @@
 #include <errno.h>
 #include <stdio.h>
 #include <string.h>
+#include <ctype.h>
+#include <unistd.h>
 
+/*DATA STRUCTURES*/
 
 /**
  * struct list_s - A new struct type defining a linked list.
@@ -40,7 +43,6 @@ int (*f)(char **argv, char **front);
 } builtin_t;
 
 
-
 /**
  * struct alias_s - A new struct defining aliases.
  * @name: The name of the alias.
@@ -58,18 +60,45 @@ struct alias_s *next;
 
 alias_t *aliases;
 
+/**
+ * struct data_shell - Shell data structure
+ * @dir: A pointer to a character array representing the current directory
+ * @in_home: Flag indicating whether the current directory is within
+ * the home directory
+ * @in_home2: Flag or indicator related to the current directory's location
+ * @is_ddash: Flag to check if the command or input includes a double dash (--)
+ * @args: Check argument input
+ * @ustatus -current directory, flags, and other relevant information.
+ */
+typedef struct data_shell
+{
+char *dir;
+int in_home;
+int in_home2;
+int is_ddash;
+unsigned int ustatus;
+char args;
+} data_shell;
+
+/**
+ *my_ino_t struct - Custom data structure for managing file descriptors.
+ *@readfd: Integer variable representing a file descriptor for reading data.
+ */
 typedef struct ino_t
 {
 int readfd;
 } my_ino_t;
 
 
+
 typedef struct args_t
 {
-int args;
+int arg;
 int diff;
 char env;
 } args_t;
+
+/* FILE PROTOTYPES/ FUNCTIONS*/
 
 /* interactive_shell.c */
 int shell_interactive(my_ino_t *);
@@ -78,9 +107,8 @@ int is_alpha(int);
 int string_to_int(char *);
 
 /* getline prototype */
-ssize_t _getline(char **lineptr, size_t *n, FILE *stream);
-ssize_t getdelim(char **lineptr, size_t *n, int delim, FILE *stream);
-
+void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size);
+void assign_lineptr(char **lineptr, size_t *n, char *buffer, size_t b);
 
 /*var_replacement prototypes */
 int is_chain_command(ino_t *, char *, size_t *);
@@ -88,6 +116,11 @@ void check_chain_command(ino_t *, char *, size_t *, size_t, size_t);
 int replace_alias_command(ino_t *);
 int replace_variables(ino_t *);
 int replace_string_content(char **, char *);
+
+
+/*builtin_exit prototypes*/
+int exit_shell(data_shell *datash);
+int is_valid_status(unsigned int status);
 
 
 /*exit.c prototypes */
@@ -106,6 +139,9 @@ int execute(char **args, char **front);
 void help_history(void);
 
 /* builtin_alias.c prototypes */
+int shellby_alias(char **args, char __attribute__((__unused__)) **front);
+void set_alias(char *var_name, char *value);
+void print_alias(alias_t *alias);
 char **replace_aliases(char **args);
 alias_t *add_alias_end(alias_t **head, char *name, char *value);
 list_t *add_node_end(list_t **head, char *dir);
@@ -122,22 +158,28 @@ void free_args(char **args, char **front);
 
 
 /* setenv.c prototypes */
-int shellby_env(char **args, char __attribute__((__unused__)) **front, char **environ);
+int shellby_env(char **args, char __attribute__(
+(__unused__)) **front, char **environ);
 int shellby_setenv(char **args, char __attribute__((__unused__)) **front);
 int shellby_unsetenv(char **args, char __attribute__((__unused__)) **front);
 
 
 /* env_builtin.c prototypes */
 int (*get_builtin(char *command))(char **args, char **front);
-int shellby_alias(char **args, char __attribute__((__unused__)) **front);
 void help_env(void);
 
 
 /* builtin.c prototypes */
 int shellby_cd(char **args, char __attribute__((__unused__)) **front);
 int shellby_exit(char **args, char **front);
-int shellby_alias(char **args, char __attribute__((__unused__)) **front);
 int shellby_help(char **args, char __attribute__((__unused__)) **front);
+int cd_shell(data_shell *datash);
+int shellby_help(char **args, char __attribute__((__unused__)) **front);
+
+/* seperator.c*/
+int num_len(int num);
+char *_itoa(int num);
+int create_error(char **args, int err);
 
 /*commits.c (error_ Handling) */
 int create_error(char **args, int err);
@@ -160,10 +202,7 @@ int _strcmp(char *s1, char *s2);
 int _strncmp(const char *s1, const char *s2, size_t n);
 char **strings(char **env);
 
-void help_all(void);
-void help_cd(void);
-void help_help(void);
 
 int proc_file_commands(char *file_path, int *exe_ret);
 
-#endif/* SHELL_H */
+#endif  /* SHELL_H */

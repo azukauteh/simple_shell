@@ -24,7 +24,7 @@ int hist = 0;
 if (line)
 free(line);
 
-read = _getline(&line, &n, STDIN_FILENO);
+read = getline(&line, &n, STDIN_FILENO);
 if (read == -1)
 return (NULL);
 if (read == 1)
