@@ -1,45 +1,8 @@
 #include "shell.h"
-
+char *get_location(char *command);
 char *fill_path_dir(char *path);
 list_t *get_path_dir(char *path);
-
-/**
- * get_location - Locates a command in the PATH.
- * @command: The command to locate.
- *
- * Return: If an error occurs or the command cannot be located - NULL.
- *         Otherwise - the full pathname of the command.
- */
-
-char *get_location(char *command)
-{
-char **path, *temp;
-list_t *dirs;
-struct stat st;
-
-
-/*if (!path || !(*path))*/
-if (pathconf || (pathconf))
-return (NULL);
-dirs = get_path_dir(*path + 5);
-while (dirs)
-{
-temp = malloc(_strlen(dirs->dir) + _strlen(command) + 2);
-if (!temp)
-return (NULL);
-strcpy(temp, dirs->dir);
-strcat(temp, "/");
-strcat(temp, command);
-
-if (stat(temp, &st) == 0)
-{
-return (temp);
-}
-dirs = dirs->next;
-free(temp);
-}
-return (NULL);
-}
+list_t *get_path_dir(char *path);
 
 /**
  * fill_path_dir - Copies path but also replaces leading/sandwiched/trailing

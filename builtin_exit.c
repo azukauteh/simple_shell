@@ -13,19 +13,19 @@ int is_valid_status(unsigned int status);
  */
 int exit_shell(data_shell *datash)
 {
-unsigned int ustatus = 0;
+    unsigned int ustatus = 0;
 
-if (datash->args && datash->args)
-{
+    if (datash->args && datash->args)
+    {
+        if (!is_valid_status(ustatus))
+        {
+            datash->ustatus = 2;
+            return 1;
+        }
+    }
 
-if (!is_valid_status(ustatus)
-
-datash->ustatus = 2;
-return (1);
-}
-datash->ustatus = ustatus % 256;
-}
-return (0);
+    datash->ustatus = ustatus % 256;
+    return 0;
 }
 
 

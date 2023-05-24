@@ -16,6 +16,7 @@
 #include <string.h>
 #include <ctype.h>
 #include <unistd.h>
+#include <stdbool.h>
 
 /*DATA STRUCTURES*/
 
@@ -169,6 +170,12 @@ int (*get_builtin(char *command))(char **args, char **front);
 void help_env(void);
 
 
+/* seperator.c */
+void handle_line(char **line, ssize_t read);
+ssize_t get_new_len(char *line);
+void logical_ops(char *line, ssize_t *new_len);
+
+
 /* builtin.c prototypes */
 int shellby_cd(char **args, char __attribute__((__unused__)) **front);
 int shellby_exit(char **args, char **front);
@@ -201,6 +208,18 @@ int _strspn(char *s, char *accept);
 int _strcmp(char *s1, char *s2);
 int _strncmp(const char *s1, const char *s2, size_t n);
 char **strings(char **env);
+
+/* builtin_helper*/
+void help_all(void);
+void help_alias(void);
+void help_cd(void);
+void help_exit(void);
+void help_help(void);
+
+/* error.c prototype */
+int num_len(int num);
+char *_itoa(int num);
+int create_error(char **args, int err);
 
 
 int proc_file_commands(char *file_path, int *exe_ret);
