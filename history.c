@@ -43,23 +43,19 @@ for (i = 0; path[i]; i++)
 if (path[i] == ':')
 {
 if (i == 0)
-{
-strcat(path_copy, pwd);
-strcat(path_copy, ":");
+{	strcat(path_copy, pwd);
+	strcat(path_copy, ":");
 }
 else if (path[i + 1] == ':'
 || path[i + 1] == '\0')
-{
-strcat(path_copy, ":");
-strcat(path_copy, pwd);
+{	strcat(path_copy, ":");
+	strcat(path_copy, pwd);
 }
-
 else
 strcat(path_copy, ":");
 }
 else
-{
-strncat(path_copy, &path[i], 1);
+{	strncat(path_copy, &path[i], 1);
 }
 }
 return (path_copy);
@@ -97,9 +93,8 @@ while (dirs[index - 1])
 char *dir = strtok(NULL, ":");
 dirs = realloc(dirs, sizeof(char *) * (index + 1));
 if (!dirs)
-{
-free(path_copy);
-return (NULL);
+{	free(path_copy);
+	return (NULL);
 }
 dirs[index] = dir;
 index++;
@@ -107,10 +102,9 @@ index++;
 for (index = 0; dirs[index]; index++)
 {
 if (add_node_end(&head, dirs[index]) == NULL)
-{
-free(dirs);
-free(path_copy);
-return (NULL);
+{	free(dirs);
+	free(path_copy);
+	return (NULL);
 }
 }
 free(dirs);

@@ -1,7 +1,7 @@
 #include "shell.h"
 
-int shellby_env(char **args, char __attribute__((__unused__))
-**front, char **environ);
+int shellby_env(char **args,
+	char __attribute__((__unused__)) **front, char **environ);
 int shellby_setenv(char **args, char __attribute__((__unused__)) **front);
 int shellby_unsetenv(char **args, char __attribute__((__unused__)) **front);
 char **environ;
@@ -103,7 +103,6 @@ int shellby_unsetenv(char **args, char __attribute__((__unused__)) **front)
 		return (create_error(args, -1));
 
 	for (size = 0; environ[size]; size++)
-
 		new_environ = malloc(sizeof(char *) * size);
 	if (!new_environ)
 		return (create_error(args, -1));
@@ -111,15 +110,13 @@ int shellby_unsetenv(char **args, char __attribute__((__unused__)) **front)
 	for (index = 0, index2 = 0; environ[index]; index++)
 	{
 		if (*env_var == environ[index])
-		{
-			free(environ[index]);
+		{	free(environ[index]);
 			continue;
 		}
 		new_environ[index2] = environ[index];
 		index2++;
 	}
 	new_environ[index2] = NULL;
-
 	free(environ);
 	environ = new_environ;
 

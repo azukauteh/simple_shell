@@ -69,7 +69,7 @@ alias_t *aliases;
  * @in_home2: Flag or indicator related to the current directory's location
  * @is_ddash: Flag to check if the command or input includes a double dash (--)
  * @args: Check argument input
- * @ustatus -current directory, flags, and other relevant information.
+ * @ustatus: current directory, flags, and other relevant information.
  */
 typedef struct data_shell
 {
@@ -82,22 +82,13 @@ char args;
 } data_shell;
 
 /**
- *my_ino_t struct - Custom data structure for managing file descriptors.
+ *struct ino_t - Custom data structure for managing file descriptors.
  *@readfd: Integer variable representing a file descriptor for reading data.
  */
 typedef struct ino_t
 {
 int readfd;
 } my_ino_t;
-
-
-
-typedef struct args_t
-{
-int arg;
-int diff;
-char env;
-} args_t;
 
 /* FILE PROTOTYPES/ FUNCTIONS*/
 
