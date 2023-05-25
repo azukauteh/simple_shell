@@ -37,9 +37,7 @@ return (funcs[i].f);
 /**
  * shellby_exit - Causes normal process termination
  *                for the shellby shell.
- * @args: An array of arguments containing the exit value.
- * @front: A double pointer to the beginning of args.
- *
+ * @args: An array of arguments containing the exit value..
  * Return: If there are no arguments - -3.
  *         If the given exit value is invalid - 2.
  *         O/w - exits with the given status value.
