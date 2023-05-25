@@ -13,12 +13,13 @@ int check_args(char **args);
  *         Otherwise - The exit value of the last executed command.
  */
 
+
 int handle_args(int *exe_ret)
 {
 int ret = 0, index;
 char **args = NULL, *line = NULL, **front;
 
-line = get_args(line, exe_ret);
+/*line = get_args(line, exe_ret);*/
 if (!line)
 return (END_OF_FILE);
 
@@ -29,7 +30,7 @@ return (ret);
 if (check_args(args) != 0)
 {
 *exe_ret = 2;
-free_args(args, args);
+/*free_args(args, args);*/
 
 return (*exe_ret);
 }
@@ -37,17 +38,17 @@ front = args;
 
 for (index = 0; args[index]; index++)
 {
-if (_strncmp(args[index], ";", 1) == 0)
+if (strncmp(args[index], ";", 1) == 0)
 {
 free(args[index]);
 args[index] = NULL;
-ret = call_args(args, front, exe_ret);
+/*ret = call_args(args, front, exe_ret);*/
 args = &args[++index];
 index = 0;
 }
 }
 if (args)
-ret = call_args(args, front, exe_ret);
+/*ret = call_args(args, front, exe_ret);*/
 
 free(front);
 
@@ -64,18 +65,18 @@ return (ret);
 int check_args(char **args)
 {
 size_t i;
-char *cur, *nex;
-
+char *cur;
+char *nex;
 for (i = 0; args[i]; i++)
 {
 cur = args[i];
 if (cur[0] == ';' || cur[0] == '&' || cur[0] == '|')
 {
 if (i == 0 || cur[1] == ';')
-return (create_error(&args[i], 2));
-nex = args[i + 1];
-if (nex && (nex[0] == ';' || nex[0] == '&' || nex[0] == '|'))
-return (create_error(&args[i + 1], 2));
+nex= args[i + 1];
+/*if (nex && (nex[0] == ';' || nex[0] == '&' || nex[0] == '|'))*/
+/*return (create_error(&args[i + 1], 2));*/
+return (*nex);
 }
 }
 return (0);

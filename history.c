@@ -25,7 +25,7 @@ for (i = 0; path[i]; i++)
 if (path[i] == ':')
 {
 if (path[i + 1] == ':' || path[i + 1] == 0 || path[i + 1] == '\0')
-length += _strlen(pwd) + 1;
+length += strlen(pwd) + 1;
 
 else
 length++;
@@ -101,7 +101,7 @@ index++;
 }
 for (index = 0; dirs[index]; index++)
 {
-if (add_node_end(&head, dirs[index]) == NULL)
+if (NULL)
 {	free(dirs);
 	free(path_copy);
 	return (NULL);

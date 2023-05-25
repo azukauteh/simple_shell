@@ -1,6 +1,6 @@
 #include "shell.h"
 int (*get_builtin(char *command))(char **args, char **front);
-int shellby_exit(char **args, char **front);
+int shellby_exit(char **args);
 
 
 
@@ -14,20 +14,20 @@ int shellby_exit(char **args, char **front);
 int (*get_builtin(char *command))(char **args, char **front)
 {
 	builtin_t funcs[] = {
-{ "exit", shellby_exit },
-{ "setenv", shellby_setenv },
-{ "unsetenv", shellby_unsetenv },
-{ "cd", shellby_cd },
-{ "alias", shellby_alias },
+/*{ "exit" ,shellby_exit },*/
+/*{ "setenv", shellby_setenv },*/
+/*{ "unsetenv", shellby_unsetenv },*/
+/*{ "cd", shellby_cd },*/
+/*{ "alias", shellby_alias },*/
 
-{ "help", shellby_help },
+/*{ "help", shellby_help },*/
 { NULL, NULL }
 };
 int i;
 
 for (i = 0; funcs[i].name; i++)
 {
-if (_strcmp(funcs[i].name, command) == 0)
+if (strcmp(funcs[i].name, command) == 0)
 break;
 }
 return (funcs[i].f);
@@ -47,7 +47,7 @@ return (funcs[i].f);
  * Description: Upon returning -3, the program exits back in the main function.
  */
 
-int shellby_exit(char **args, char **front)
+int shellby_exit(char **args)
 {
 int i, len_of_int = 10;
 unsigned int num = 0, max = 1 << (sizeof(int) * 8 - 1);
@@ -65,7 +65,7 @@ for (; args[0][i]; i++)
 if (i <= len_of_int && args[0][i] >= '0' && args[0][i] <= '9')
 num = (num * 10) + (args[0][i] - '0');
 else
-return (create_error(--args, 2));
+return (--args, 2);
 }
 }
 else
@@ -73,9 +73,9 @@ else
 return (-3);
 }
 if (num > max - 1)
-return (create_error(--args, 2));
+return (--args, 2);
 args -= 1;
-free_args(args, front);
+/*free_args(args, front);*/
 exit(num);
 }
 

@@ -127,26 +127,27 @@ void handle_line(char **line, ssize_t read);
 void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size);
 char *get_location(char *command);
 list_t *get_path_dir(char *path);
-int execute(char **args, char **front);
 void help_history(void);
 
 /* builtin_alias.c prototypes */
 int shellby_alias(char **args, char __attribute__((__unused__)) **front);
-void set_alias(char *var_name, char *value);
+char set_alias(char *var_name, char *value);
 void print_alias(alias_t *alias);
 char **replace_aliases(char **args);
 alias_t *add_alias_end(alias_t **head, char *name, char *value);
-list_t *add_node_end(list_t **head, char *dir);
-void free_alias_list(void);
+/*list_t *add_node_end(list_t **head, char *dir);*/
+/*void free_alias_list(void);*/
 void help_alias(void);
 
 /* arg.c prototypes */
 char *get_args(char *line, int *exe_ret);
-int call_args(char **args, char **front, int *exe_ret);
-int run_args(char **args, char **front, int *exe_ret);
+int call_args(char **args,int *exe_ret);
+int run_args(char **args, int *exe_ret);
+void free_args(char **args,char **front);
+
+/*args1.c prototype*/
 int handle_args(int *exe_ret);
 int check_args(char **args);
-void free_args(char **args, char **front);
 
 
 /* setenv.c prototypes */
@@ -169,7 +170,7 @@ void logical_ops(char *line, ssize_t *new_len);
 
 /* builtin.c prototypes */
 int shellby_cd(char **args, char __attribute__((__unused__)) **front);
-int shellby_exit(char **args, char **front);
+int shellby_exit(char **args);
 int shellby_help(char **args, char __attribute__((__unused__)) **front);
 int cd_shell(data_shell *datash);
 int shellby_help(char **args, char __attribute__((__unused__)) **front);
@@ -200,7 +201,16 @@ int _strcmp(char *s1, char *s2);
 int _strncmp(const char *s1, const char *s2, size_t n);
 char **strings(char **env);
 
-/* builtin_helper*/
+/* linkedlist.c */
+alias_t *add_alias_end(alias_t **head, char *name, char *value);
+void free_alias_list(alias_t *head);
+list_t *add_node_end(list_t **head, char *dir);
+void free_list(list_t *head);
+
+
+
+
+/* builtin_ helper*/
 void help_all(void);
 void help_alias(void);
 void help_cd(void);
@@ -212,6 +222,7 @@ int num_len(int num);
 char *_itoa(int num);
 int create_error(char **args, int err);
 
+int execute(char **args);
 
 int proc_file_commands(char *file_path, int *exe_ret);
 

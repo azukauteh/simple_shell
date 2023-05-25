@@ -1,6 +1,6 @@
 #include "shell.h"
 
-int execute(char **args, char **front);
+int execute(char **args);
 void sig_handler(int sig);
 
 /**
@@ -29,7 +29,7 @@ write(STDIN_FILENO, simple_shell, 3);
  */
 
 
-int execute(char **args, char **front)
+int execute(char **args)
 {
 pid_t child_pid;
 int status, flag = 0, ret = 0;
@@ -38,16 +38,16 @@ char *command = args[0];
 if (command[0] != '/' && command[0] != '.')
 {
 flag = 1;
-command = get_location(command);
+/*command = get_location(command);*/
 }
 
-if (!command || (access(command, F_OK) == -1))
-{
-if (errno == EACCES)
-ret = (create_error(args, 126));
-else
-ret = (create_error(args, 127));
-}
+/*if (!command || (access(command, F_OK) == -1))*/
+/*{*/
+/*if (errno == EACCES)*/
+/*ret = (create_error(args, 126));*/
+/*else*/
+/*ret = (create_error(args, 127));*/
+/*}*/
 else
 {
 child_pid = fork();
@@ -60,12 +60,12 @@ return (1);
 }
 if (child_pid == 0)
 {
-int execute(char **args, char **front);
+int execute(char **args);
 if (errno == EACCES)
-ret = (create_error(args, 126));
+/*ret = (create_error(args, 126));*/
 
-free_args(args, front);
-free_alias_list();
+/*free_args(args, front);*/
+/*free_alias_list();*/
 _exit(ret);
 }
 else
@@ -110,7 +110,7 @@ exit(-100);
 
 if (argc != 1)
 {
-ret = proc_file_commands(argv[1], exe_ret);
+/*ret = proc_file_commands(argv[1], exe_ret);*/
 
 return (*exe_ret);
 }
@@ -118,7 +118,7 @@ return (*exe_ret);
 if (!isatty(STDIN_FILENO))
 {
 while (ret != END_OF_FILE && ret != EXIT)
-ret = handle_args(exe_ret);
+/*ret = handle_args(exe_ret);*/
 
 return (*exe_ret);
 }

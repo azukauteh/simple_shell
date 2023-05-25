@@ -1,8 +1,8 @@
 #include "shell.h"
 
 char *get_args(char *line, int *exe_ret);
-int call_args(char **args, char **front, int *exe_ret);
-int run_args(char **args, char **front, int *exe_ret);
+int call_args(char **args, int *exe_ret);
+int run_args(char **args, int *exe_ret);
 
 
 
@@ -38,7 +38,7 @@ return (get_args(line, exe_ret));
 }
 
 line[read - 1] = '\0';
-handle_line(&line, read);
+/*handle_line(&line, read);*/
 return (line);
 }
 /**
@@ -49,20 +49,22 @@ return (line);
  *
  * Return: The return value of the last executed command.
  */
-int call_args(char **args, char **front, int *exe_ret)
+int call_args(char **args, int *exe_ret)
 {
-int ret, index;
+int ret = 0;
+int index;
+
 
 if (!args[0])
 return (*exe_ret);
 for (index = 0; args[index]; index++)
 {
-if (_strncmp(args[index], "||", 2) == 0)
+if (strncmp(args[index], "||", 2) == 0)
 {
 free(args[index]);
 args[index] = NULL;
-args = replace_aliases(args);
-ret = run_args(args, front, exe_ret);
+/*args = replace_aliases(args);*/
+/*ret = run_args(args, front, exe_ret);*/
 if (*exe_ret != 0)
 {
 args = &args[++index];
@@ -75,12 +77,12 @@ free(args[index]);
 return (ret);
 }
 }
-else if (_strncmp(args[index], "&&", 2) == 0)
+else if (strncmp(args[index], "&&", 2) == 0)
 {
 free(args[index]);
 args[index] = NULL;
-args = replace_aliases(args);
-ret = run_args(args, front, exe_ret);
+/*args = replace_aliases(args);*/
+/*ret = run_args(args, front, exe_ret);*/
 if (*exe_ret == 0)
 {
 args = &args[++index];
@@ -94,8 +96,8 @@ return (ret);
 }
 }
 }
-args = replace_aliases(args);
-ret = run_args(args, front, exe_ret);
+/*args = replace_aliases(args);*/
+/*ret = run_args(args, front, exe_ret);*/
 return (ret);
 }
 
@@ -107,23 +109,21 @@ return (ret);
  *
  * Return: The return value of the last executed command.
  */
-int run_args(char **args, char **front, int *exe_ret)
+int run_args(char **args, int *exe_ret)
 {
-int ret, i;
+int ret = 0;
+int i;
 int hist = 0;
-int (*builtin)(char **args, char **front);
+int *builtin = 0;
 
-builtin = get_builtin(args[0]);
-
-if (builtin)
+if (*builtin)
 {
-ret = builtin(args + 1, front);
 if (ret != EXIT)
 *exe_ret = ret;
 }
 else
 {
-*exe_ret = execute(args, front);
+/**exe_ret = execute(args, front);*/
 ret = *exe_ret;
 }
 
