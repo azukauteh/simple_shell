@@ -141,9 +141,9 @@ void help_alias(void);
 
 /* arg.c prototypes */
 char *get_args(char *line, int *exe_ret);
-int call_args(char **args,int *exe_ret);
+int call_args(char **args, int *exe_ret);
 int run_args(char **args, int *exe_ret);
-void free_args(char **args,char **front);
+void free_args(char **args, char **front);
 
 /*args1.c prototype*/
 int handle_args(int *exe_ret);

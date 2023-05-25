@@ -53,7 +53,7 @@ int shellby_setenv(char **args, char __attribute__((__unused__)) **front)
 
 	new_value = malloc(strlen(args[0]) + 1 + strlen(args[1]) + 1);
 	if (!new_value)
-		return ( -1);
+		return (-1);
 	strcpy(new_value, args[0]);
 	strcat(new_value, "=");
 	strcat(new_value, args[1]);
