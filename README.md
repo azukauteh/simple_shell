@@ -35,18 +35,8 @@ Once the shell is running, you can enter commands and interact with it. Here are
 
 - Piping:
 
-For more information on available commands and their usage, please refer to the [documentation](docs/).
 
-## Contributing
-
-Contributions are welcome! If you find any issues or want to add new features, please feel free to submit a pull request. Make sure to follow the [contribution guidelines](CONTRIBUTING.md).
 
 ## License
 
-This project is licensed under the [MIT License](LICENSE).
-
-## Acknowledgments
-
-- [List any acknowledgments or resources you used for inspiration or guidance.]
-
-
+This project is licensed under the [ALX SOFTWARE ENGINEERING](LICENSE).
