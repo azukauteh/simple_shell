@@ -1,6 +1,6 @@
 # Simple Shell Project
 
-This is a simple shell implementation written in [programming language]. It provides a basic command-line interface where users can execute various commands and interact with the underlying operating system.
+This is a simple shell implementation written in C. It provides a basic command-line interface where users can execute various commands and interact with the underlying operating system.
 
 ## Features
 
