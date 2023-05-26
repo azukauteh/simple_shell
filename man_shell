@@ -1,4 +1,4 @@
-.TH hsh 1 "AUGUST 14, 2021" "1.0" "hsh (simple_shell) Man Page"
+.TH hsh 1 "MAY 26, 2023" "1.0" "hsh (simple_shell) Man Page"
 
 .SH NAME
 
@@ -117,13 +117,13 @@ br.
 
 
 .SH BUGS
-No known bugs have been found/reported as of (August 14, 2021).
+No known bugs have been found/reported as of (26 05, 2023).
 Please report any issues/bugs to the contributors listed in the AUTHORs section.
 
 .SH AUTHOR
 
-Stephen Makenzi Waweru <stevomakenzi@gmail.com>
-Aloice Okoth <zacchaeusokoth4@gmail.com>
+Azuka Uteh <aazure263@gmail.com>
+Basetsana Seeletsa <seeletsagrey@gmail.com>
 
 
 .SH SEE ALSO
