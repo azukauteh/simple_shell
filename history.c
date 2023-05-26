@@ -1,113 +1,141 @@
 #include "shell.h"
-char *get_location(char *command);
-char *fill_path_dir(char *path);
-list_t *get_path_dir(char *path);
-list_t *get_path_dir(char *path);
 
 /**
- * fill_path_dir - Copies path but also replaces leading/sandwiched/trailing
- *		   colons (:) with current working directory.
- * @path: The colon-separated list of directories.
+ * get_history_file - gets the history file
+ * @info: parameter struct
  *
- * Return: A copy of path with any leading/sandwiched/trailing colons replaced
- *	   with the current working directory.
+ * Return: allocated string containg history file
  */
 
-char *fill_path_dir(char *path)
+char *get_history_file(info_t *info)
 {
-int i, length = 0;
-char *path_copy, *pwd;
+	char *buf, *dir;
 
-pwd = (char *)(getenv("PWD") + 4);
-
-for (i = 0; path[i]; i++)
-{
-if (path[i] == ':')
-{
-if (path[i + 1] == ':' || path[i + 1] == 0 || path[i + 1] == '\0')
-length += strlen(pwd) + 1;
-
-else
-length++;
-}
-
-else
-length++;
-}
-path_copy = malloc(sizeof(char) * (length + 1));
-if (!path_copy)
-return (NULL);
-path_copy[0] = '\0';
-for (i = 0; path[i]; i++)
-{
-if (path[i] == ':')
-{
-if (i == 0)
-{	strcat(path_copy, pwd);
-	strcat(path_copy, ":");
-}
-else if (path[i + 1] == ':'
-|| path[i + 1] == '\0')
-{	strcat(path_copy, ":");
-	strcat(path_copy, pwd);
-}
-else
-strcat(path_copy, ":");
-}
-else
-{	strncat(path_copy, &path[i], 1);
-}
-}
-return (path_copy);
+	dir = _getenv(info, "HOME=");
+	if (!dir)
+		return (NULL);
+	buf = malloc(sizeof(char) * (_strlen(dir) + _strlen(HIST_FILE) + 2));
+	if (!buf)
+		return (NULL);
+	buf[0] = 0;
+	_strcpy(buf, dir);
+	_strcat(buf, "/");
+	_strcat(buf, HIST_FILE);
+	return (buf);
 }
 
 /**
- * get_path_dir - Tokenizes a colon-separated list of
- *                directories into a list_s linked list.
- * @path: The colon-separated list of directories.
+ * write_history - creates a file, or appends to an existing file
+ * @info: the parameter struct
  *
- * Return: A pointer to the initialized linked list.
+ * Return: 1 on success, else -1
  */
+int write_history(info_t *info)
+{
+	ssize_t fd;
+	char *filename = get_history_file(info);
+	list_t *node = NULL;
 
-list_t *get_path_dir(char *path)
+	if (!filename)
+		return (-1);
+
+	fd = open(filename, O_CREAT | O_TRUNC | O_RDWR, 0644);
+	free(filename);
+	if (fd == -1)
+		return (-1);
+	for (node = info->history; node; node = node->next)
+	{
+		_putsfd(node->str, fd);
+		_putfd('\n', fd);
+	}
+	_putfd(BUF_FLUSH, fd);
+	close(fd);
+	return (1);
+}
+
+/**
+ * read_history - reads history from file
+ * @info: the parameter struct
+ *
+ * Return: histcount on success, 0 otherwise
+ */
+int read_history(info_t *info)
 {
-int index;
-char **dirs;
-list_t *head = NULL;
-char *path_copy = NULL;
-if (!path)
-return (NULL);
-path_copy = strdup(path);
-if (!path_copy)
-return (NULL);
-dirs = malloc(sizeof(char *));
-if (!dirs)
+	int i, last = 0, linecount = 0;
+	ssize_t fd, rdlen, fsize = 0;
+	struct stat st;
+	char *buf = NULL, *filename = get_history_file(info);
+
+	if (!filename)
+		return (0);
+
+	fd = open(filename, O_RDONLY);
+	free(filename);
+	if (fd == -1)
+		return (0);
+	if (!fstat(fd, &st))
+		fsize = st.st_size;
+	if (fsize < 2)
+		return (0);
+	buf = malloc(sizeof(char) * (fsize + 1));
+	if (!buf)
+		return (0);
+	rdlen = read(fd, buf, fsize);
+	buf[fsize] = 0;
+	if (rdlen <= 0)
+		return (free(buf), 0);
+	close(fd);
+	for (i = 0; i < fsize; i++)
+		if (buf[i] == '\n')
+		{
+			buf[i] = 0;
+			build_history_list(info, buf + last, linecount++);
+			last = i + 1;
+		}
+	if (last != i)
+		build_history_list(info, buf + last, linecount++);
+	free(buf);
+	info->histcnt = linecount;
+	while (info->histcnt-- >= HIST_MAX)
+		delete_node_at_index(&(info->history), 0);
+	renumber_history(info);
+	return (info->histcnt);
+}
+
+/**
+ * build_history_list - function that will add entry list
+ * @info: struct
+ * @buf: buffer
+ * @linecount: linecount
+ * Return: Always 0
+ */
+int build_history_list(info_t *info, char *buf, int linecount)
 {
-free(path_copy);
-return (NULL);
+	list_t *node = NULL;
+
+	if (info->history)
+		node = info->history;
+	add_node_end(&node, buf, linecount);
+
+	if (!info->history)
+		info->history = node;
+	return (0);
 }
-dirs[0] = strtok(path_copy, ":");
-index = 1;
-while (dirs[index - 1])
+
+/**
+ * renumber_history - function that will re-number
+ * @info: struct
+ * Return: histcnt
+ */
+int renumber_history(info_t *info)
 {
-char *dir = strtok(NULL, ":");
-dirs = realloc(dirs, sizeof(char *) * (index + 1));
-if (!dirs)
-{	free(path_copy);
-	return (NULL);
-}
-dirs[index] = dir;
-index++;
-}
-for (index = 0; dirs[index]; index++)
-{
-if (NULL)
-{	free(dirs);
-	free(path_copy);
-	return (NULL);
-}
-}
-free(dirs);
-free(path_copy);
-return (head);
+	list_t *node = info->history;
+	int i = 0;
+
+	while (node)
+	{
+		node->num = i++;
+		node = node->next;
+	}
+	return (info->histcnt = i);
 }

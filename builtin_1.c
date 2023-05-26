@@ -1,137 +1,115 @@
 #include "shell.h"
 
-
-int shellby_cd(char **args, char __attribute__((__unused__)) **front);
-int shellby_help(char **args, char __attribute__((__unused__)) **front);
+/**
+ * _myhistory - displays the history list, one command by line, preceded
+ *              with line numbers, starting at 0.
+ * @info: Structure containing potential arguments. Used to maintain
+ *        constant function prototype.
+ *  Return: Always 0
+ */
+int _myhistory(info_t *info)
+{
+	print_list(info->history);
+	return (0);
+}
 
 /**
- * shellby_cd - Changes the current directory of the shellby process.
- * @args: An array of arguments.
- * @front: A double pointer to the beginning of args.
+ * unset_alias - sets alias to string
+ * @info: parameter struct
+ * @str: the string alias
  *
- * Return: If the given string is not a directory - 2.
- *         If an error occurs - -1.
- *         Otherwise - 0.
+ * Return: Always 0 on success, 1 on error
  */
-
-int shellby_cd(char **args, char __attribute__((__unused__)) **front)
+int unset_alias(info_t *info, char *str)
 {
+	char *p, c;
+	int ret;
 
-char **dir_info, *new_line = "\n";
-char *oldpwd = NULL, *pwd = NULL;
-struct stat dir;
-
-oldpwd = getcwd(oldpwd, 0);
-if (!oldpwd)
-return (-1);
-
-if  (args[0])
-{
-if (*(args[0]) == '-' || strcmp(args[0], "--") == 0)
-{
-if ((args[0][1] == '-' && args[0][2] == '\0') || args[0][1] == '\0')
-{
-
-char *oldpwd_env = getenv("OLDPWD");
-if (oldpwd_env != NULL)
-{
-chdir(oldpwd_env + 7);
-
+	p = _strchr(str, '=');
+	if (!p)
+		return (1);
+	c = *p;
+	*p = 0;
+	ret = delete_node_at_index(&(info->alias),
+		get_node_index(info->alias, node_starts_with(info->alias, str, -1)));
+	*p = c;
+	return (ret);
 }
-
-else
-{
-free(oldpwd);
-
-return (2);
-}
-}
-else
-{
-if (stat(args[0], &dir) == 0 && S_ISDIR(dir.st_mode)
-&& ((dir.st_mode & S_IXUSR) != 0))
-chdir(args[0]);
-else
-{
-free(oldpwd);
-return (2);
-}
-
-}
-}
-else
-{
-
-char *home = getenv("HOME");
-if (home != NULL)
-chdir(home + 5);
-}
-
-pwd = getcwd(pwd, 0);
-if (!pwd)
-return (-1);
-
-dir_info = malloc(sizeof(char *) * 2);
-if (!dir_info)
-return (-1);
-
-dir_info[0] = "OLDPWD";
-dir_info[1] = oldpwd;
-if (dir_info || dir_info)
-return (-1);
-
-dir_info[0] = "PWD";
-dir_info[1] = pwd;
-
-if (dir_info || dir_info)
-return (-1);
-
-if (args[0] && args[0][0] == '-' && args[0][1] != '-')
-{
-write(STDOUT_FILENO, pwd, strlen(pwd));
-write(STDOUT_FILENO, new_line, 1);
-}
-
-free(oldpwd);
-free(pwd);
-free(dir_info);
-
-return (0);
-}
-return (0);
-}
-
-
 
 /**
- * shellby_help - Displays information about shellby builtin commands.
- * @args: An array of arguments.
- * @front: A pointer to the beginning of args.
+ * set_alias - sets alias to string
+ * @info: parameter struct
+ * @str: the string alias
  *
- * Return: If an error occurs - -1.
- *         Otherwise - 0.
+ * Return: Always 0 on success, 1 on error
  */
-int shellby_help(char **args, char __attribute__((__unused__)) **front)
+int set_alias(info_t *info, char *str)
 {
+	char *p;
 
-if (!args[0])
-return (0);
-else if (strcmp(args[0], "alias") == 0)
-return (0);
-else if (strcmp(args[0], "cd") == 0)
-return (0);
-else if (strcmp(args[0], "exit") == 0)
-return (0);
-else if (strcmp(args[0], "env") == 0)
-return (0);
-else if (strcmp(args[0], "setenv") == 0)
-return (0);
-else if (strcmp(args[0], "unsetenv") == 0)
-return (0);
-else if (strcmp(args[0], "help") == 0)
-return (0);
+	p = _strchr(str, '=');
+	if (!p)
+		return (1);
+	if (!*++p)
+		return (unset_alias(info, str));
 
-write(STDERR_FILENO, args[0], strlen(args[0]));
+	unset_alias(info, str);
+	return (add_node_end(&(info->alias), str, 0) == NULL);
+}
 
-return (0);
+/**
+ * print_alias - prints an alias string
+ * @node: the alias node
+ *
+ * Return: Always 0 on success, 1 on error
+ */
+int print_alias(list_t *node)
+{
+	char *p = NULL, *a = NULL;
+
+	if (node)
+	{
+		p = _strchr(node->str, '=');
+		for (a = node->str; a <= p; a++)
+			_putchar(*a);
+		_putchar('\'');
+		_puts(p + 1);
+		_puts("'\n");
+		return (0);
+	}
+	return (1);
+}
+
+/**
+ * _myalias - mimics the alias builtin (man alias)
+ * @info: Structure containing potential arguments. Used to maintain
+ *          constant function prototype.
+ *  Return: Always 0
+ */
+int _myalias(info_t *info)
+{
+	int i = 0;
+	char *p = NULL;
+	list_t *node = NULL;
+
+	if (info->argc == 1)
+	{
+		node = info->alias;
+		while (node)
+		{
+			print_alias(node);
+			node = node->next;
+		}
+		return (0);
+	}
+	for (i = 1; info->argv[i]; i++)
+	{
+		p = _strchr(info->argv[i], '=');
+		if (p)
+			set_alias(info, info->argv[i]);
+		else
+			print_alias(node_starts_with(info->alias, info->argv[i], '='));
+	}
+
+	return (0);
 }

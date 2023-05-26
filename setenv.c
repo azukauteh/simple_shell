@@ -1,124 +1,92 @@
 #include "shell.h"
 
-int shellby_env(char **args,
-	char __attribute__((__unused__)) **front, char **environ);
-int shellby_setenv(char **args, char __attribute__((__unused__)) **front);
-int shellby_unsetenv(char **args, char __attribute__((__unused__)) **front);
-char **environ;
-
 /**
- * shellby_env - Prints the current environment variables.
- * @args: An array of arguments passed to the shell.
- * @front: A double pointer to the beginning of args.
- * @environ: Pointer to the environment variables.
- * Return: If an error occurs, returns -1. Otherwise, returns 0.
- * Description: This function prints the current environment variables
- *              with each variable on a separate line in the format
- *              'variable'='value'.
+ * _myenv - prints the current environment
+ * @info: Structure containing potential arguments. Used to maintain
+ *          constant function prototype.
+ * Return: Always 0
  */
-int shellby_env(char **args, char __attribute__((__unused__))
-**front, char **environ)
+int _myenv(info_t *info)
 {
-	int index;
-	char nc = '\n';
-
-	if (!environ)
-		return (-1);
-	for (index = 0; environ[index] != NULL; index++)
-	{
-		write(STDOUT_FILENO, environ[index], strlen(environ[index]));
-		write(STDOUT_FILENO, &nc, 1);
-	}
-	(void)args;
+	print_list_str(info->env);
 	return (0);
 }
+
 /**
- * shellby_setenv - Changes or adds an environmental variable to the PATH.
- * @args: An array of arguments passed to  passed to the shell.
-* @front: A double pointer to the beginning of args.
- * Description: args[1] is the name of the new or existing PATH variable.
- *              args[2] is the value to set the new or changed variable to.
+ * _getenv - gets the value of an environ variable
+ * @info: Structure containing potential arguments. Used to maintain
+ * @name: env var name
  *
- * Return: If an error occurs - -1.
- *         Otherwise - 0.
+ * Return: the value
  */
-int shellby_setenv(char **args, char __attribute__((__unused__)) **front)
+char *_getenv(info_t *info, const char *name)
 {
-	char **env_var = NULL, **new_environ, *new_value;
-	size_t size;
-	int index;
+	list_t *node = info->env;
+	char *p;
 
-	if (!args[0] || !args[1])
-		return (-1);
-
-	new_value = malloc(strlen(args[0]) + 1 + strlen(args[1]) + 1);
-	if (!new_value)
-		return (-1);
-	strcpy(new_value, args[0]);
-	strcat(new_value, "=");
-	strcat(new_value, args[1]);
-
-	*env_var = getenv(args[0]);
-	if (env_var)
+	while (node)
 	{
-		free(*env_var);
-		*env_var = new_value;
+		p = starts_with(node->str, name);
+		if (p && *p)
+			return (p);
+		node = node->next;
+	}
+	return (NULL);
+}
+
+/**
+ * _mysetenv - Initialize a new environment variable,
+ *             or modify an existing one
+ * @info: Structure containing potential arguments. Used to maintain
+ *        constant function prototype.
+ *  Return: Always 0
+ */
+int _mysetenv(info_t *info)
+{
+	if (info->argc != 3)
+	{
+		_eputs("Incorrect number of arguements\n");
+		return (1);
+	}
+	if (_setenv(info, info->argv[1], info->argv[2]))
 		return (0);
-	}
-	for (size = 0; environ[size]; size++)
+	return (1);
+}
 
-		new_environ = malloc(sizeof(char *) * (size + 2));
-	if (!new_environ)
+/**
+ * _myunsetenv - Remove an environment variable
+ * @info: Structure containing potential arguments. Used to maintain
+ *        constant function prototype.
+ *  Return: Always 0
+ */
+int _myunsetenv(info_t *info)
+{
+	int i;
+
+	if (info->argc == 1)
 	{
-		free(new_value);
-		return (-1);
+		_eputs("Too few arguements.\n");
+		return (1);
 	}
-	for (index = 0; environ[index]; index++)
-		new_environ[index] = environ[index];
-
-	free(environ);
-	environ = new_environ;
-	environ[index] = new_value;
-	environ[index + 1] = NULL;
+	for (i = 1; i <= info->argc; i++)
+		_unsetenv(info, info->argv[i]);
 
 	return (0);
 }
+
 /**
- * shellby_unsetenv - Deletes an environmental variable from the PATH.
- * @args: An array of arguments passed to the shell.
- * @front: A double pointer to the beginning of args.
- * Description: args[1] is the PATH variable to remove.
- * Return: If an error occurs - -1.
- *         Otherwise - 0.
+ * populate_env_list - populates env linked list
+ * @info: Structure containing potential arguments. Used to maintain
+ *          constant function prototype.
+ * Return: Always 0
  */
-
-int shellby_unsetenv(char **args, char __attribute__((__unused__)) **front)
+int populate_env_list(info_t *info)
 {
-	char **env_var = args;
-	char **new_environ;
-	size_t size;
-	int index, index2;
+	list_t *node = NULL;
+	size_t i;
 
-	if (!args[0])
-		return (-1);
-
-	for (size = 0; environ[size]; size++)
-		new_environ = malloc(sizeof(char *) * size);
-	if (!new_environ)
-		return (-1);
-
-	for (index = 0, index2 = 0; environ[index]; index++)
-	{
-		if (*env_var == environ[index])
-		{	free(environ[index]);
-			continue;
-		}
-		new_environ[index2] = environ[index];
-		index2++;
-	}
-	new_environ[index2] = NULL;
-	free(environ);
-	environ = new_environ;
-
+	for (i = 0; environ[i]; i++)
+		add_node_end(&node, environ[i], 0);
+	info->env = node;
 	return (0);
 }
