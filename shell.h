@@ -57,11 +57,11 @@ typedef struct liststr
  *@path: string path for cmd
  *@argc: argument count
  *@lin_cnt: will handle error count
- *@err_num: will return if exit fails
+ *@error_num: will return if exit fails
  *@lincnt_flag: if on count this line of input
  *@file_name: program filename
  *@env: copy of environ
- *@environ: local environ 
+ *@environ: local environ
  *@history: node
  *@alias: node
  *@env_changed: environ was changed
