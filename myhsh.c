@@ -4,8 +4,7 @@
  * hsh - function for shell
  * @info: struct
  * @av:  argvect
- *
- * Return: 0 on success, 1 on error, or error code
+ * Return: 0 if successful otherwise 1
  */
 int hsh(info_t *info, char **av)
 {
