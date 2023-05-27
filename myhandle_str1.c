@@ -1,11 +1,11 @@
 #include "shell.h"
 
 /**
- * list_len - function that calc length
+ * l_length - function that calc length
  * @h: pointer
  * Return: list size
  */
-size_t list_len(const list_t *h)
+size_t l_length(const list_t *h)
 {
 	size_t i = 0;
 
@@ -18,14 +18,14 @@ size_t list_len(const list_t *h)
 }
 
 /**
- * list_to_strings - function that will return string array
+ * l_str - function that will return string array
  * @head: pointer
  * Return: string array
  */
-char **list_to_strings(list_t *head)
+char **l_str(list_t *head)
 {
 	list_t *node = head;
-	size_t i = list_len(head), j;
+	size_t i = l_length(head), j;
 	char **strs;
 	char *str;
 
@@ -54,11 +54,11 @@ char **list_to_strings(list_t *head)
 
 
 /**
- * print_list - Function display element of list_t linked list
+ * _plist - Function display element of list_t linked list
  * @h: pointer
  * Return: list size
  */
-size_t print_list(const list_t *h)
+size_t _plist(const list_t *h)
 {
 	size_t i = 0;
 
@@ -76,13 +76,13 @@ size_t print_list(const list_t *h)
 }
 
 /**
- * node_starts_with - function to return node
+ * _snode - function to return node
  * @node: pointer
  * @prefix: string
  * @c: character
  * Return: exact node otherwise null
  */
-list_t *node_starts_with(list_t *node, char *prefix, char c)
+list_t *_snode(list_t *node, char *prefix, char c)
 {
 	char *p = NULL;
 
@@ -97,12 +97,12 @@ list_t *node_starts_with(list_t *node, char *prefix, char c)
 }
 
 /**
- * get_node_index - Function that fetches index of node
+ * getn_ind - Function that fetches index of node
  * @head: pointer
  * @node: pointer
  * Return: index node otherwise -1
  */
-ssize_t get_node_index(list_t *head, list_t *node)
+ssize_t getn_ind(list_t *head, list_t *node)
 {
 	size_t i = 0;
 

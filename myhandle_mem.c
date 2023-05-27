@@ -1,13 +1,13 @@
 #include "shell.h"
 
 /**
- **_memset - will add constant byte in memory
+ **setmemo - will add constant byte in memory
  *@s: pointer
  *@b: byte
  *@n: num of bytes
  *Return: pointer to mem
  */
-char *_memset(char *s, char b, unsigned int n)
+char *setmemo(char *s, char b, unsigned int n)
 {
 	unsigned int i;
 
@@ -17,10 +17,10 @@ char *_memset(char *s, char b, unsigned int n)
 }
 
 /**
- * ffree - will free a string
+ * str_free - will free a string
  * @pp: string
  */
-void ffree(char **pp)
+void str_free(char **pp)
 {
 	char **a = pp;
 

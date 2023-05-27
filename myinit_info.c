@@ -24,7 +24,7 @@ void set_info(info_t *info, char **av)
 	info->file_name = av[0];
 	if (info->arg)
 	{
-		info->argv = strtow(info->arg, " \t");
+		info->argv = _str_split(info->arg, " \t");
 		if (!info->argv)
 		{
 
@@ -51,7 +51,7 @@ void set_info(info_t *info, char **av)
  */
 void free_info(info_t *info, int all)
 {
-	ffree(info->argv);
+	str_free(info->argv);
 	info->argv = NULL;
 	info->path = NULL;
 	if (all)
@@ -59,14 +59,14 @@ void free_info(info_t *info, int all)
 		if (!info->cmd_buffer)
 			free(info->arg);
 		if (info->env)
-			free_list(&(info->env));
+			_flist(&(info->env));
 		if (info->history)
-			free_list(&(info->history));
+			_flist(&(info->history));
 		if (info->alias)
-			free_list(&(info->alias));
-		ffree(info->environ);
+			_flist(&(info->alias));
+		str_free(info->environ);
 			info->environ = NULL;
-		bfree((void **)info->cmd_buffer);
+		isfree((void **)info->cmd_buffer);
 		if (info->readfd > 2)
 			close(info->readfd);
 		_putchar(BUF_FLUSH);

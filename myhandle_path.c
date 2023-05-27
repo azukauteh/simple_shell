@@ -1,12 +1,12 @@
 #include "shell.h"
 
 /**
- * is_cmd - Will check wheather file is exec cmd
+ * _rcmd - Will check wheather file is exec cmd
  * @info: structure
  * @path: parameter
  * Return: 1 otherwise 0
  */
-int is_cmd(info_t *info, char *path)
+int _rcmd(info_t *info, char *path)
 {
 	struct stat st;
 
@@ -22,13 +22,13 @@ int is_cmd(info_t *info, char *path)
 }
 
 /**
- * dup_chars - function will duplicate char
+ * c_duplicate - function will duplicate char
  * @pathstr: elemnt
  * @start: The index start
  * @stop: index stops
  * Return: pointer
  */
-char *dup_chars(char *pathstr, int start, int stop)
+char *c_duplicate(char *pathstr, int start, int stop)
 {
 	static char buf[1024];
 	int i = 0, k = 0;
@@ -41,13 +41,13 @@ char *dup_chars(char *pathstr, int start, int stop)
 }
 
 /**
- * find_path - function that finds cmd
+ * _fpath - function that finds cmd
  * @info: structure
  * @pathstr: elemnt
  * @cmd: command
  * Return: entire path of cmd
  */
-char *find_path(info_t *info, char *pathstr, char *cmd)
+char *_fpath(info_t *info, char *pathstr, char *cmd)
 {
 	int i = 0, curr_pos = 0;
 	char *path;
@@ -56,14 +56,14 @@ char *find_path(info_t *info, char *pathstr, char *cmd)
 		return (NULL);
 	if ((_strlen(cmd) > 2) && starts_with(cmd, "./"))
 	{
-		if (is_cmd(info, cmd))
+		if (_rcmd(info, cmd))
 			return (cmd);
 	}
 	while (1)
 	{
 		if (!pathstr[i] || pathstr[i] == ':')
 		{
-			path = dup_chars(pathstr, curr_pos, i);
+			path = c_duplicate(pathstr, curr_pos, i);
 			if (!*path)
 				_strcat(path, cmd);
 			else
@@ -71,7 +71,7 @@ char *find_path(info_t *info, char *pathstr, char *cmd)
 				_strcat(path, "/");
 				_strcat(path, cmd);
 			}
-			if (is_cmd(info, path))
+			if (_rcmd(info, path))
 				return (path);
 			if (!pathstr[i])
 				break;

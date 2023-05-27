@@ -1,13 +1,13 @@
 #include "shell.h"
 
 /**
- * add_node - function to add node at the begining
+ * _anode - function to add node at the begining
  * @head: ptr address
  * @str: string
  * @num: index
  * Return: list size
  */
-list_t *add_node(list_t **head, const char *str, int num)
+list_t *_anode(list_t **head, const char *str, int num)
 {
 	list_t *new_head;
 
@@ -16,7 +16,7 @@ list_t *add_node(list_t **head, const char *str, int num)
 	new_head = malloc(sizeof(list_t));
 	if (!new_head)
 		return (NULL);
-	_memset((void *)new_head, 0, sizeof(list_t));
+	setmemo((void *)new_head, 0, sizeof(list_t));
 	new_head->num = num;
 	if (str)
 	{
@@ -33,13 +33,13 @@ list_t *add_node(list_t **head, const char *str, int num)
 }
 
 /**
- * add_node_end - function to add node end
+ * end_anode - function to add node end
  * @head: pointer pointer
  * @str: str
  * @num: index
  * Return: list size
  */
-list_t *add_node_end(list_t **head, const char *str, int num)
+list_t *end_anode(list_t **head, const char *str, int num)
 {
 	list_t *new_node, *node;
 
@@ -50,7 +50,7 @@ list_t *add_node_end(list_t **head, const char *str, int num)
 	new_node = malloc(sizeof(list_t));
 	if (!new_node)
 		return (NULL);
-	_memset((void *)new_node, 0, sizeof(list_t));
+	setmemo((void *)new_node, 0, sizeof(list_t));
 	new_node->num = num;
 	if (str)
 	{
@@ -73,11 +73,11 @@ list_t *add_node_end(list_t **head, const char *str, int num)
 }
 
 /**
- * print_list_str - function will only print string element
+ * print_lstr - function will only print string element
  * @h: ptr
  * Return: list size
  */
-size_t print_list_str(const list_t *h)
+size_t print_lstr(const list_t *h)
 {
 	size_t i = 0;
 
@@ -92,12 +92,12 @@ size_t print_list_str(const list_t *h)
 }
 
 /**
- * delete_node_at_index - function that will delete node
+ * d_ind - function that will delete node
  * @head: pointer address
  * @index: index
  * Return: 1 if successful otherwise 0
  */
-int delete_node_at_index(list_t **head, unsigned int index)
+int d_ind(list_t **head, unsigned int index)
 {
 	list_t *node, *prev_node;
 	unsigned int i = 0;
@@ -131,11 +131,11 @@ int delete_node_at_index(list_t **head, unsigned int index)
 }
 
 /**
- * free_list - function that will free node
+ * _flist - function that will free node
  * @head_ptr: pointer address
  * Return: void
  */
-void free_list(list_t **head_ptr)
+void _flist(list_t **head_ptr)
 {
 	list_t *node, *next_node, *head;
 

@@ -117,9 +117,9 @@ void find_cmd(info_t *);
 void fork_cmd(info_t *);
 
 /* handle_path.c */
-int is_cmd(info_t *, char *);
-char *dup_chars(char *, int, int);
-char *find_path(info_t *, char *, char *);
+int _rcmd(info_t *, char *);
+char *c_duplicate(char *, int, int);
+char *_fpath(info_t *, char *, char *);
 
 /* loop */
 int loophsh(char **);
@@ -147,17 +147,17 @@ char *_strncpy(char *, char *, int);
 char *_strncat(char *, char *, int);
 char *_strchr(char *, char);
 
-/* handle_str.c */
-char **strtow(char *, char *);
-char **strtow2(char *, char);
+/* handle_str2.c */
+char **_str_split(char *, char *);
+char **_str_split2(char *, char);
 
 /* handle_mem.c */
-char *_memset(char *, char, unsigned int);
-void ffree(char **);
+char *setmemo(char *, char, unsigned int);
+void str_free(char **);
 void *_realloc(void *, unsigned int, unsigned int);
 
 /* handle_mem1.c */
-int bfree(void **);
+int isfree(void **);
 
 /* interactive_shell.c*/
 int interactive(info_t *);
@@ -211,18 +211,18 @@ int list_history(info_t *info, char *buf, int linecount);
 int renum_history(info_t *info);
 
 /* handle_str.c*/
-list_t *add_node(list_t **, const char *, int);
-list_t *add_node_end(list_t **, const char *, int);
-size_t print_list_str(const list_t *);
-int delete_node_at_index(list_t **, unsigned int);
-void free_list(list_t **);
+list_t *_anode(list_t **, const char *, int);
+list_t *end_anode(list_t **, const char *, int);
+size_t print_lstr(const list_t *);
+int d_ind(list_t **, unsigned int);
+void _flist(list_t **);
 
 /* handle_str1.c */
-size_t list_len(const list_t *);
-char **list_to_strings(list_t *);
-size_t print_list(const list_t *);
-list_t *node_starts_with(list_t *, char *, char);
-ssize_t get_node_index(list_t *, list_t *);
+size_t l_length(const list_t *);
+char **l_str(list_t *);
+size_t _plist(const list_t *);
+list_t *_snode(list_t *, char *, char);
+ssize_t getn_ind(list_t *, list_t *);
 
 /* check_chain.c */
 int _chain(info_t *, char *, size_t *);

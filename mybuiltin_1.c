@@ -7,7 +7,7 @@
  */
 int cpy_hist(info_t *info)
 {
-	print_list(info->history);
+	_plist(info->history);
 	return (0);
 }
 
@@ -15,8 +15,7 @@ int cpy_hist(info_t *info)
  * unset_alias - sets alias to string
  * @info: parameter struct
  * @str: the string alias
- *
- * Return: Always 0 on success, 1 on error
+ * Return: 0 successful otherwise 1
  */
 int unset_alias(info_t *info, char *str)
 {
@@ -28,8 +27,8 @@ int unset_alias(info_t *info, char *str)
 		return (1);
 	c = *p;
 	*p = 0;
-	ret = delete_node_at_index(&(info->alias),
-		get_node_index(info->alias, node_starts_with(info->alias, str, -1)));
+	ret = d_ind(&(info->alias),
+		getn_ind(info->alias, _snode(info->alias, str, -1)));
 	*p = c;
 	return (ret);
 }
@@ -51,7 +50,7 @@ int set_alias(info_t *info, char *str)
 		return (unset_alias(info, str));
 
 	unset_alias(info, str);
-	return (add_node_end(&(info->alias), str, 0) == NULL);
+	return (end_anode(&(info->alias), str, 0) == NULL);
 }
 
 /**
@@ -103,7 +102,7 @@ int cpy_alias(info_t *info)
 		if (p)
 			set_alias(info, info->argv[i]);
 		else
-			prt_alias(node_starts_with(info->alias, info->argv[i], '='));
+			prt_alias(_snode(info->alias, info->argv[i], '='));
 	}
 
 	return (0);

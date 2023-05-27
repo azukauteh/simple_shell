@@ -81,7 +81,7 @@ int rep_alias(info_t *info)
 
 	for (i = 0; i < 10; i++)
 	{
-		node = node_starts_with(info->alias, info->argv[0], '=');
+		node = _snode(info->alias, info->argv[0], '=');
 		if (!node)
 			return (0);
 		free(info->argv[0]);
@@ -123,7 +123,7 @@ int rep_var(info_t *info)
 				_strdup(conv_num(getpid(), 10, 0)));
 			continue;
 		}
-		node = node_starts_with(info->env, &info->argv[i][1], '=');
+		node = _snode(info->env, &info->argv[i][1], '=');
 		if (node)
 		{
 			rep_str(&(info->argv[i]),

@@ -1,13 +1,13 @@
 #include "shell.h"
 
 /**
- * **strtow - function that will split string
+ * **_str_split - function that will split string
  * @str: string
  * @del: delimeter
  * Return: a pointer to an array of strings, or NULL on failure
  */
 
-char **strtow(char *str, char *del)
+char **_str_split(char *str, char *del)
 {
 	int i, j, k, m, numwords = 0;
 	char **s;
@@ -49,12 +49,12 @@ char **strtow(char *str, char *del)
 }
 
 /**
- * **strtow2 - function that will split string
+ * _str_split2 - function that will split string
  * @str: string
  * @del: delimeter
  * Return: pointer || Null
  */
-char **strtow2(char *str, char del)
+char **_str_split2(char *str, char del)
 {
 	int i, j, k, m, numwords = 0;
 	char **s;

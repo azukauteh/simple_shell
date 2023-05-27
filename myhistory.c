@@ -94,7 +94,7 @@ int read_history(info_t *info)
 	free(buf);
 	info->histcnt = linecount;
 	while (info->histcnt-- >= HIST_MAX)
-		delete_node_at_index(&(info->history), 0);
+		d_ind(&(info->history), 0);
 	renum_history(info);
 	return (info->histcnt);
 }
@@ -112,7 +112,7 @@ int list_history(info_t *info, char *buf, int linecount)
 
 	if (info->history)
 		node = info->history;
-	add_node_end(&node, buf, linecount);
+	end_anode(&node, buf, linecount);
 
 	if (!info->history)
 		info->history = node;

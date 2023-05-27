@@ -1,11 +1,11 @@
 #include "shell.h"
 
 /**
- * bfree - Will free ptr
+ * isfree - Will free ptr
  * @ptr: ptr address
  * Return: 1 otherwise 0.
  */
-int bfree(void **ptr)
+int isfree(void **ptr)
 {
 	if (ptr && *ptr)
 	{
