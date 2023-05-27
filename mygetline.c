@@ -1,13 +1,13 @@
 #include "shell.h"
 
 /**
- * input_buf - multiple commands
+ * input_buffer - multiple commands
  * @info: parameter
  * @buf: address
  * @len: length address
- * Return: bytes read
+ * Return: num of bytes
  */
-ssize_t input_buf(info_t *info, char **buf, size_t *len)
+ssize_t input_buffer(info_t *info, char **buf, size_t *len)
 {
 	ssize_t r = 0;
 	size_t len_p = 0;
@@ -31,8 +31,8 @@ ssize_t input_buf(info_t *info, char **buf, size_t *len)
 				r--;
 			}
 			info->lincnt_flag = 1;
-			remove_comments(*buf);
-			build_history_list(info, *buf, info->histcnt++);
+			rm_comments(*buf);
+			list_history(info, *buf, info->histcnt++);
 
 			{
 				*len = r;
@@ -56,7 +56,7 @@ ssize_t get_input(info_t *info)
 	char **buf_p = &(info->arg), *p;
 
 	_putchar(BUF_FLUSH);
-	r = input_buf(info, &buf, &len);
+	r = input_buffer(info, &buf, &len);
 	if (r == -1)
 		return (-1);
 	if (len)
@@ -64,10 +64,10 @@ ssize_t get_input(info_t *info)
 		j = i;
 		p = buf + i;
 
-		check_chain(info, buf, &j, i, len);
+		chain_check(info, buf, &j, i, len);
 		while (j < len)
 		{
-			if (is_chain(info, buf, &j))
+			if (_chain(info, buf, &j))
 				break;
 			j++;
 		}
@@ -88,14 +88,13 @@ ssize_t get_input(info_t *info)
 }
 
 /**
- * read_buf - Will read buffer
+ * rd_buffer - Will read buffer
  * @info: parameter
  * @buf: buffer
  * @i: size
- *
  * Return: r
  */
-ssize_t read_buf(info_t *info, char *buf, size_t *i)
+ssize_t rd_buffer(info_t *info, char *buf, size_t *i)
 {
 	ssize_t r = 0;
 
@@ -128,7 +127,7 @@ int _getline(info_t *info, char **ptr, size_t *length)
 	if (i == len)
 		i = len = 0;
 
-	r = read_buf(info, buf, &len);
+	r = rd_buffer(info, buf, &len);
 	if (r == -1 || (r == 0 && len == 0))
 		return (-1);
 

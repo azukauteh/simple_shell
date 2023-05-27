@@ -29,10 +29,9 @@ int _erratoi(char *s)
 
 /**
  * print_error - prints error
- * @info: the parameter & return info struct
+ * @info: structure
  * @estr: string containing specified error type
- * Return: 0 if no numbers in string, converted number otherwise
- *        -1 on error
+ * Return: 0 if no num in str conv num otherwise -1
  */
 void print_error(info_t *info, char *estr)
 {
@@ -49,7 +48,6 @@ void print_error(info_t *info, char *estr)
  * print_d - function prints a decimal (integer) number (base 10)
  * @input: the input
  * @fd: the filedescriptor to write to
- *
  * Return: number of characters printed
  */
 int print_d(int input, int fd)
@@ -85,14 +83,13 @@ int print_d(int input, int fd)
 }
 
 /**
- * convert_number - converter function, a clone of itoa
- * @num: number
- * @base: base
- * @flags: argument flags
- *
+ * conv_num - function that works like itoa
+ * @num: number element
+ * @base: base element
+ * @flags: flags parameter
  * Return: string
  */
-char *convert_number(long int num, int base, int flags)
+char *conv_num(long int num, int base, int flags)
 {
 	static char *array;
 	static char buffer[50];
@@ -121,12 +118,11 @@ char *convert_number(long int num, int base, int flags)
 }
 
 /**
- * remove_comments - function replaces first instance of '#' with '\0'
- * @buf: address of the string to modify
- *
- * Return: Always 0;
+ * rm_comments - function replaces first instance of '#' with '\0'
+ * @buf: address of str changed
+ * Return: 0
  */
-void remove_comments(char *buf)
+void rm_comments(char *buf)
 {
 	int i;
 

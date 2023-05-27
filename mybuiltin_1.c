@@ -1,13 +1,11 @@
 #include "shell.h"
 
 /**
- * _myhistory - displays the history list, one command by line, preceded
- *              with line numbers, starting at 0.
- * @info: Structure containing potential arguments. Used to maintain
- *        constant function prototype.
+ * cpy_hist - Will show history list
+ * @info: structure
  *  Return: Always 0
  */
-int _myhistory(info_t *info)
+int cpy_hist(info_t *info)
 {
 	print_list(info->history);
 	return (0);
@@ -37,11 +35,10 @@ int unset_alias(info_t *info, char *str)
 }
 
 /**
- * set_alias - sets alias to string
- * @info: parameter struct
- * @str: the string alias
- *
- * Return: Always 0 on success, 1 on error
+ * set_alias - Will set alias
+ * @info: struct
+ * @str: string
+ * Return: 0 if successful otherwise 1
  */
 int set_alias(info_t *info, char *str)
 {
@@ -58,12 +55,11 @@ int set_alias(info_t *info, char *str)
 }
 
 /**
- * print_alias - prints an alias string
- * @node: the alias node
- *
- * Return: Always 0 on success, 1 on error
+ * prt_alias - Will print alias str
+ * @node: node
+ * Return: 0 if successfull otherwise 1
  */
-int print_alias(list_t *node)
+int prt_alias(list_t *node)
 {
 	char *p = NULL, *a = NULL;
 
@@ -81,12 +77,11 @@ int print_alias(list_t *node)
 }
 
 /**
- * _myalias - mimics the alias builtin (man alias)
- * @info: Structure containing potential arguments. Used to maintain
- *          constant function prototype.
- *  Return: Always 0
+ * cpy_alias - Will work like builtin alias
+ * @info: structure
+ *  Return: 0
  */
-int _myalias(info_t *info)
+int cpy_alias(info_t *info)
 {
 	int i = 0;
 	char *p = NULL;
@@ -97,7 +92,7 @@ int _myalias(info_t *info)
 		node = info->alias;
 		while (node)
 		{
-			print_alias(node);
+			prt_alias(node);
 			node = node->next;
 		}
 		return (0);
@@ -108,7 +103,7 @@ int _myalias(info_t *info)
 		if (p)
 			set_alias(info, info->argv[i]);
 		else
-			print_alias(node_starts_with(info->alias, info->argv[i], '='));
+			prt_alias(node_starts_with(info->alias, info->argv[i], '='));
 	}
 
 	return (0);

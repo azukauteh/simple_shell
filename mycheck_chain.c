@@ -1,14 +1,14 @@
 #include "shell.h"
 
 /**
- * is_chain - test if current char in buffer is a chain delimeter
- * @info: the parameter struct
- * @buf: the char buffer
- * @p: address of current position in buf
+ * _chain - Will check curr char
+ * @info: structure
+ * @buf: buffer
+ * @p: address
  *
- * Return: 1 if chain delimeter, 0 otherwise
+ * Return: 1 otherwise 0
  */
-int is_chain(info_t *info, char *buf, size_t *p)
+int _chain(info_t *info, char *buf, size_t *p)
 {
 	size_t j = *p;
 
@@ -24,9 +24,9 @@ int is_chain(info_t *info, char *buf, size_t *p)
 		j++;
 		info->cmd_buffer_type = CMD_AND;
 	}
-	else if (buf[j] == ';') /* found end of this command */
+	else if (buf[j] == ';')
 	{
-		buf[j] = 0; /* replace semicolon with null */
+		buf[j] = 0;
 		info->cmd_buffer_type = CMD_CHAIN;
 	}
 	else
@@ -36,7 +36,7 @@ int is_chain(info_t *info, char *buf, size_t *p)
 }
 
 /**
- * check_chain - checks from last status
+ * chain_check - checks from last status
  * @info: parameter
  * @buf: buffer
  * @p: address
@@ -44,7 +44,7 @@ int is_chain(info_t *info, char *buf, size_t *p)
  * @len: buffer length
  * Return: void
  */
-void check_chain(info_t *info, char *buf, size_t *p, size_t i, size_t len)
+void chain_check(info_t *info, char *buf, size_t *p, size_t i, size_t len)
 {
 	size_t j = *p;
 
@@ -69,11 +69,11 @@ void check_chain(info_t *info, char *buf, size_t *p, size_t i, size_t len)
 }
 
 /**
- * replace_alias - Will replace alias
+ * rep_alias - Will replace alias
  * @info: parameter
- * Return: 1 if replaced, 0 otherwise
+ * Return: 1 if replaced otherwise 0
  */
-int replace_alias(info_t *info)
+int rep_alias(info_t *info)
 {
 	int i;
 	list_t *node;
@@ -97,11 +97,11 @@ int replace_alias(info_t *info)
 }
 
 /**
- * replace_vars - Will replace vars
+ * rep_var - Will replace variables
  * @info: parameter
- * Return: 1 if replaced, 0 otherwise
+ * Return: 1 if replaced otherwise 0
  */
-int replace_vars(info_t *info)
+int rep_var(info_t *info)
 {
 	int i = 0;
 	list_t *node;
@@ -113,36 +113,36 @@ int replace_vars(info_t *info)
 
 		if (!_strcmp(info->argv[i], "$?"))
 		{
-			replace_string(&(info->argv[i]),
-				_strdup(convert_number(info->status, 10, 0)));
+			rep_str(&(info->argv[i]),
+				_strdup(conv_num(info->status, 10, 0)));
 			continue;
 		}
 		if (!_strcmp(info->argv[i], "$$"))
 		{
-			replace_string(&(info->argv[i]),
-				_strdup(convert_number(getpid(), 10, 0)));
+			rep_str(&(info->argv[i]),
+				_strdup(conv_num(getpid(), 10, 0)));
 			continue;
 		}
 		node = node_starts_with(info->env, &info->argv[i][1], '=');
 		if (node)
 		{
-			replace_string(&(info->argv[i]),
+			rep_str(&(info->argv[i]),
 				_strdup(_strchr(node->str, '=') + 1));
 			continue;
 		}
-		replace_string(&info->argv[i], _strdup(""));
+		rep_str(&info->argv[i], _strdup(""));
 
 	}
 	return (0);
 }
 
 /**
- * replace_string - replaces string
- * @old: address of old string
+ * rep_str - replaces string
+ * @old: address of old str
  * @new: new string
- * Return: 1 if replaced, 0 otherwise
+ * Return: 1 if replaced otherwise 0
  */
-int replace_string(char **old, char *new)
+int rep_str(char **old, char *new)
 {
 	free(*old);
 	*old = new;

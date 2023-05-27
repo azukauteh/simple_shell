@@ -1,13 +1,12 @@
 #include "shell.h"
 
 /**
- * get_history_file - gets the history file
- * @info: parameter struct
- *
- * Return: allocated string containg history file
+ * history_file - function that will get file history
+ * @info: parameter
+ * Return: string history file
  */
 
-char *get_history_file(info_t *info)
+char *history_file(info_t *info)
 {
 	char *buf, *dir;
 
@@ -25,15 +24,14 @@ char *get_history_file(info_t *info)
 }
 
 /**
- * write_history - creates a file, or appends to an existing file
- * @info: the parameter struct
- *
- * Return: 1 on success, else -1
+ * write_history - function that add/create file
+ * @info: parameter
+ * Return: 1 if successful otherwise -1
  */
 int write_history(info_t *info)
 {
 	ssize_t fd;
-	char *filename = get_history_file(info);
+	char *filename = history_file(info);
 	list_t *node = NULL;
 
 	if (!filename)
@@ -54,17 +52,16 @@ int write_history(info_t *info)
 }
 
 /**
- * read_history - reads history from file
- * @info: the parameter struct
- *
- * Return: histcount on success, 0 otherwise
+ * read_history - function that will read history from a file
+ * @info: structure
+ * Return: histcnt if successful otherwise
  */
 int read_history(info_t *info)
 {
 	int i, last = 0, linecount = 0;
 	ssize_t fd, rdlen, fsize = 0;
 	struct stat st;
-	char *buf = NULL, *filename = get_history_file(info);
+	char *buf = NULL, *filename = history_file(info);
 
 	if (!filename)
 		return (0);
@@ -89,27 +86,27 @@ int read_history(info_t *info)
 		if (buf[i] == '\n')
 		{
 			buf[i] = 0;
-			build_history_list(info, buf + last, linecount++);
+			list_history(info, buf + last, linecount++);
 			last = i + 1;
 		}
 	if (last != i)
-		build_history_list(info, buf + last, linecount++);
+		list_history(info, buf + last, linecount++);
 	free(buf);
 	info->histcnt = linecount;
 	while (info->histcnt-- >= HIST_MAX)
 		delete_node_at_index(&(info->history), 0);
-	renumber_history(info);
+	renum_history(info);
 	return (info->histcnt);
 }
 
 /**
- * build_history_list - function that will add entry list
- * @info: struct
+ * list_history - function that will add entry list
+ * @info: structure
  * @buf: buffer
  * @linecount: linecount
- * Return: Always 0
+ * Return: 0
  */
-int build_history_list(info_t *info, char *buf, int linecount)
+int list_history(info_t *info, char *buf, int linecount)
 {
 	list_t *node = NULL;
 
@@ -123,11 +120,11 @@ int build_history_list(info_t *info, char *buf, int linecount)
 }
 
 /**
- * renumber_history - function that will re-number
+ * renum_history - Will re-number
  * @info: struct
  * Return: histcnt
  */
-int renumber_history(info_t *info)
+int renum_history(info_t *info)
 {
 	list_t *node = info->history;
 	int i = 0;

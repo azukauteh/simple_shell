@@ -169,17 +169,17 @@ int _atoi(char *);
 int _erratoi(char *);
 void print_error(info_t *, char *);
 int print_d(int, int);
-char *convert_number(long int, int, int);
-void remove_comments(char *);
+char *conv_num(long int, int, int);
+void rm_comments(char *);
 
 /* builtin.c */
-int _myexit(info_t *);
-int _mycd(info_t *);
-int _myhelp(info_t *);
+int cpy_exit(info_t *);
+int cpy_cd(info_t *);
+int _help(info_t *);
 
 /* builtin1.c */
-int _myhistory(info_t *);
-int _myalias(info_t *);
+int cpy_hist(info_t *);
+int cpy_alias(info_t *);
 
 /* getline.c */
 ssize_t get_input(info_t *);
@@ -204,11 +204,11 @@ int _unsetenv(info_t *, char *);
 int _setenv(info_t *, char *, char *);
 
 /* history.c */
-char *get_history_file(info_t *info);
+char *history_file(info_t *info);
 int write_history(info_t *info);
 int read_history(info_t *info);
-int build_history_list(info_t *info, char *buf, int linecount);
-int renumber_history(info_t *info);
+int list_history(info_t *info, char *buf, int linecount);
+int renum_history(info_t *info);
 
 /* handle_str.c*/
 list_t *add_node(list_t **, const char *, int);
@@ -225,10 +225,10 @@ list_t *node_starts_with(list_t *, char *, char);
 ssize_t get_node_index(list_t *, list_t *);
 
 /* check_chain.c */
-int is_chain(info_t *, char *, size_t *);
-void check_chain(info_t *, char *, size_t *, size_t, size_t);
-int replace_alias(info_t *);
-int replace_vars(info_t *);
-int replace_string(char **, char *);
+int _chain(info_t *, char *, size_t *);
+void chain_check(info_t *, char *, size_t *, size_t, size_t);
+int rep_alias(info_t *);
+int rep_var(info_t *);
+int rep_str(char **, char *);
 
 #endif
