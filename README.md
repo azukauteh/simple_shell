@@ -36,7 +36,3 @@ Once the shell is running, you can enter commands and interact with it. Here are
 - Piping:
 
 
-
-## License
-
-This project is licensed under the [ALX SOFTWARE ENGINEERING](LICENSE).
